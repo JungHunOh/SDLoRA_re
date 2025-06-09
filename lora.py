@@ -10,7 +10,7 @@ dataset='math_10k'
 model='llama'
 
 lr=2e-4
-r=4
+r=64
 
 if model == 'gpt':
     base_model = 'EleutherAI/gpt-j-6b'
@@ -18,7 +18,7 @@ elif model == 'llama':
     base_model = 'yahma/llama-7b-hf'
 
 # math
-os.system(f'CUDA_VISIBLE_DEVICES={gpu} python finetune.py --base_model {base_model} --data_path ./ft-training_set/{dataset}.json --output_dir ./trained_models/test/ --batch_size 16 --micro_batch_size 4   --num_epochs 3   --learning_rate {lr}   --cutoff_len 256   --val_set_size 0 --eval_step 80 --save_step 80  --adapter_name lora --lora_r {r} --lora_alpha {r*2} --pissa_init --sign_preserve')
+os.system(f'CUDA_VISIBLE_DEVICES={gpu} python finetune.py --base_model {base_model} --data_path ./ft-training_set/{dataset}.json --output_dir ./trained_models/{model}_{dataset}_lora_r{r}_lr{lr}/ --batch_size 16 --micro_batch_size 4   --num_epochs 3   --learning_rate {lr}   --cutoff_len 256   --val_set_size 0 --eval_step 80 --save_step 80  --adapter_name lora --lora_r {r} --lora_alpha {r*2}')
 
 if dataset == 'commonsense_170k':
     evalsets = ["boolq", "piqa", "social_i_qa", "hellaswag", "winogrande", "ARC-Challenge", "ARC-Easy", "openbookqa"]
